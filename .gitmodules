@@ -1,0 +1,3 @@
+[submodule "submodules/pocketsphinx-python"]
+	path = submodules/pocketsphinx-python
+	url = https://github.com/cmusphinx/pocketsphinx-python.git
