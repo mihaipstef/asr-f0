@@ -1,0 +1,164 @@
+From d1a8b3c1ae1f6ca1a2463a7e5c62e80fac075959 Mon Sep 17 00:00:00 2001
+From: Mihai Stef <mihai-petru.stef@riverbed.com>
+Date: Thu, 6 Apr 2017 13:58:38 +0300
+Subject: [PATCH] Expose YIN alg
+
+---
+ swig/Makefile.am        |  3 +-
+ swig/python/Makefile.am |  3 +-
+ swig/sphinxbase.i       |  7 ++++-
+ swig/yin.i              | 74 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 84 insertions(+), 3 deletions(-)
+ create mode 100644 swig/yin.i
+
+diff --git a/swig/Makefile.am b/swig/Makefile.am
+index 68cc4d6..bc60ba3 100644
+--- a/swig/Makefile.am
++++ b/swig/Makefile.am
+@@ -11,4 +11,5 @@ dist_swig_DATA = \
+ 	logmath.i \
+ 	ngram_model.i \
+ 	sphinxbase.i \
+-	typemaps.i
++	typemaps.i \
++	yin.i
+diff --git a/swig/python/Makefile.am b/swig/python/Makefile.am
+index 6fe3d75..337b039 100644
+--- a/swig/python/Makefile.am
++++ b/swig/python/Makefile.am
+@@ -13,7 +13,8 @@ SWIG_FILES = \
+ 	$(SWIG_DIR)/fsg_model.i \
+ 	$(SWIG_DIR)/ngram_model.i \
+ 	$(SWIG_DIR)/iterators.i \
+-	$(SWIG_DIR)/typemaps.i
++	$(SWIG_DIR)/typemaps.i \
++        $(SWIG_DIR)/yin.i
+ 
+ if BUILD_DOXYGEN
+ SWIG_FLAGS += -DHAS_DOC -I$(top_builddir)/doc
+diff --git a/swig/sphinxbase.i b/swig/sphinxbase.i
+index 6972c76..110652a 100644
+--- a/swig/sphinxbase.i
++++ b/swig/sphinxbase.i
+@@ -64,6 +64,8 @@ negative error code."
+ 
+ %include typemaps.i
+ %include iterators.i
++%include pybuffer.i
++
+ 
+ #if SWIGPYTHON
+ %begin %{
+@@ -85,6 +87,7 @@ typedef int bool;
+ #include <sphinxbase/feat.h>
+ #include <sphinxbase/jsgf.h>
+ #include <sphinxbase/ngram_model.h>
++#include <sphinxbase/yin.h>
+ 
+ typedef cmd_ln_t Config;
+ typedef jsgf_t Jsgf;
+@@ -95,6 +98,7 @@ typedef fsg_model_t FsgModel;
+ typedef logmath_t LogMath;
+ typedef ngram_model_t NGramModel;
+ typedef ngram_model_t NGramModelSet;
++typedef yin_t Yin;
+ %}
+ 
+ %nodefaultctor Config;
+@@ -106,6 +110,7 @@ typedef struct {} FsgModel;
+ typedef struct {} JsgfRule;
+ typedef struct {} NGramModel;
+ typedef struct {} LogMath;
++typedef struct {} Yin;
+ 
+ sb_iterator(NGramModelSet, ngram_model_set_iter, NGramModel);
+ sb_iterator(Jsgf, jsgf_rule_iter, JsgfRule)
+@@ -126,4 +131,4 @@ typedef struct {} Jsgf;
+ %include jsgf.i
+ %include ngram_model.i
+ %include logmath.i
+-
++%include yin.i
+diff --git a/swig/yin.i b/swig/yin.i
+new file mode 100644
+index 0000000..3e3ee7f
+--- /dev/null
++++ b/swig/yin.i
+@@ -0,0 +1,74 @@
++/* -*- c-basic-offset: 4; indent-tabs-mode: nil -*- */
++/* ====================================================================
++ * Copyright (c) 2013 Carnegie Mellon University.  All rights
++ * reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions
++ * are met:
++ *
++ * 1. Redistributions of source code must retain the above copyright
++ *    notice, this list of conditions and the following disclaimer.
++ *
++ * 2. Redistributions in binary form must reproduce the above copyright
++ *    notice, this list of conditions and the following disclaimer in
++ *    the documentation and/or other materials provided with the
++ *    distribution.
++ *
++ * This work was supported in part by funding from the Defense Advanced
++ * Research Projects Agency and the National Science Foundation of the
++ * United States of America, and the CMU Sphinx Speech Consortium.
++ *
++ * THIS SOFTWARE IS PROVIDED BY CARNEGIE MELLON UNIVERSITY ``AS IS'' AND
++ * ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
++ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
++ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL CARNEGIE MELLON UNIVERSITY
++ * NOR ITS EMPLOYEES BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
++ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
++ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
++ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
++ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ *
++ * ====================================================================
++ *
++ */
++
++
++// TODO: search for functions returning error code
++%extend Yin {
++
++        Yin(int frame_size, float search_th, float search_rng, int smooth_win) {
++                return yin_init(frame_size, search_th, search_rng, smooth_win);
++        }
++
++        Yin(yin_t *ptr) {
++                return ptr;
++        }
++
++        ~Yin() {
++                yin_free($self);
++        }
++
++        void start() {
++                yin_start($self);
++        }
++
++        void end() {
++                yin_end($self);
++        }
++
++        %include <pybuffer.i>
++        %pybuffer_binary(const char* frame, size_t frame_size);
++        void write(const char * frame, size_t frame_size) {
++                yin_write($self,(int16*)frame);
++        }
++
++        %include <typemaps.i>
++        %apply int *OUTPUT { int16 *out_period, int16 *out_bestdiff};
++        int read(int16* out_period, int16* out_bestdiff) {
++                return yin_read($self, out_period, out_bestdiff);
++        }
++
++}
+-- 
+2.7.4
+
