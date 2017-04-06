@@ -1,0 +1,7 @@
+#update all submodules
+git submodule update --init --recursive
+#apply yin patch
+cd submodules/pocketsphinx-python/deps/sphinxbase && git apply ../../../../patches/pocketsphinx-python/sphinxbase/0001-Expose-YIN-alg.patch
+#build&install pocketsphinx-python
+sudo python setup.py install
+
