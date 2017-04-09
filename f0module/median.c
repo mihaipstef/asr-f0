@@ -43,6 +43,13 @@ void median_reset() {
 	current_median = 0.0;
 }
 
+void median_free() {
+	heap_free(&low_heap);
+	heap_free(&high_heap);
+	count = 0;
+	current_median = 0.0;
+}
+
 void median_process(double val) {
 	double root;
 	if (count == 0) {

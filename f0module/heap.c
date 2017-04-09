@@ -17,6 +17,10 @@ void heap_init(Heap *heap, size_t max_size, int (*cmp_f)(int,int))
 }
 
 void heap_reset(Heap *heap) {
+	heap->length = 0;
+}
+
+void heap_free(Heap *heap) {
 	if (heap->data) {
 		free(heap->data);
 	}
