@@ -8,7 +8,7 @@ typedef struct Statistics {
 	double var;
 } Statistics;
 
-void reset_stats();
-void running_stats(double, Statistics*);
+void stats_reset();
+void stats_process(double, Statistics*);
 
 #endif

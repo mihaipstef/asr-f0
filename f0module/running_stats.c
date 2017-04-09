@@ -9,7 +9,7 @@ static double maxim = 0.0;
 static double minim = DBL_MAX;
 static unsigned int nsamples = 0;
 
-void reset_stats() {
+void stats_reset() {
 	average = 0.0;
 	variance = 0.0;
 	maxim = 0.0;
@@ -17,7 +17,7 @@ void reset_stats() {
 	nsamples = 0;
 }
 
-void running_stats(double value, Statistics *stats) {
+void stats_process(double value, Statistics *stats) {
 	double d;
 	if (nsamples < UINT_MAX) {
 		++nsamples;
