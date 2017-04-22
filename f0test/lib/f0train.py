@@ -21,7 +21,7 @@ def computeFeatures(dbPath, speakers, outFname=None):
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn import datasets
 import random
-def trainKNClassifier(dbPath, speakers, fName=None):
+def train2NNClassifier(dbPath, speakers, fName=None):
 	if fName is None:
 		data = computeFeatures(dbPath, speakers)
 	else:
@@ -34,6 +34,21 @@ def trainKNClassifier(dbPath, speakers, fName=None):
 	dataMale = np.array(data["male"])
 	dataMaleY = np.array(["male" for i in xrange(dataMale.shape[0])])
 	knn.fit(np.concatenate((dataFemale, dataMale)), np.concatenate((dataFemaleY,dataMaleY)))
-	#knn.fit(dataMale, dataMaleY)
-	
+	return knn
+
+def train3NNClassifier(dbPath, speakers, fName=None):
+	if fName is None:
+		data = computeFeatures(dbPath, speakers)
+	else:
+		with open(fName, 'r') as f:
+			data = json.load(f)
+	knn = KNeighborsClassifier()
+
+	dataFemale = np.array(data["female"])
+	dataFemaleY = np.array(["female" for i in xrange(dataFemale.shape[0])])
+	dataMale = np.array(data["male"])
+	dataMaleY = np.array(["male" for i in xrange(dataMale.shape[0])])
+	dataChild = np.array(data["child"])
+	dataChildY = np.array(["child" for i in xrange(dataChild.shape[0])])
+	knn.fit(np.concatenate((dataFemale, dataMale, dataChild)), np.concatenate((dataFemaleY,dataMaleY,dataChildY)))
 	return knn

@@ -1,9 +1,9 @@
 from lib.f0 import *
 
-dbPath = "../../db/"
+dbPath = "../db/"
 #speaker = "cmu_us_bdl_arctic"
-speaker = "cmu_us_slt_arctic"
-file = "arctic_a0001.wav"
+speaker = "H26"
+file = "4PK6POP.wav"
 #dbPath+speaker+"/wav/"+file
 
 import os
