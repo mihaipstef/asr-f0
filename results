@@ -1,14 +1,41 @@
 
-Male vs Female, 2NN classifier, F0 trajectories, WindowLength=500ms
-
+*********************************************************************
+* Male vs Female, kNN classifier, F0 trajectories, WindowLength=500ms
+*********************************************************************
 Errors:  160 No. of utterances:  2262 Error rate:  7.07338638373 %
 Test utterances stats
 male: 49.9557913351% (1130/2262)
 female: 50.0442086649% (1132/2262)
 
-Male vs Female vs Child, 3NN classifier, F0 trajectories, WindowLength=500ms
-
+******************************************************************************
+* Male vs Female vs Child, kNN classifier, F0 trajectories, WindowLength=500ms
+******************************************************************************
 Errors:  272 No. of utterances:  2851 Error rate:  9.54051210102 %
+Test utterances stats
+male: 39.6352157138% (1130/2851)
+female: 39.7053665381% (1132/2851)
+child: 20.6594177482% (589/2851)
+
+****************************************************************************************
+* Male vs Female, Decision Tree classifier, F0 trajectories, WindowLength=500ms
+****************************************************************************************
+Errors:  185 No. of utterances:  2262 Error rate:  8.17860300619 %
+female -> male: 5.74204946996%
+male -> female: 10.6194690265%
+Test utterances stats
+male: 49.9557913351% (1130/2262)
+female: 50.0442086649% (1132/2262)
+
+****************************************************************************************
+* Male vs Female vs Child, Decision Tree classifier, F0 trajectories, WindowLength=500ms
+****************************************************************************************
+Errors:  361 No. of utterances:  2851 Error rate:  12.6622237811 %
+male -> child: 6.19469026549%
+female -> child: 6.44876325088%
+female -> male: 4.32862190813%
+child -> female: 6.62139219015%
+child -> male: 5.60271646859%
+male -> female: 8.58407079646%
 Test utterances stats
 male: 39.6352157138% (1130/2851)
 female: 39.7053665381% (1132/2851)
