@@ -1,6 +1,8 @@
 
 *********************************************************************
 * Male vs Female, kNN classifier, F0 trajectories, WindowLength=500ms
+* Model: 1 male  (cmu_arctic), 1 female (cmu_arctic)
+* Test: 1 male  (cmu_arctic), 1 female (cmu_arctic)
 *********************************************************************
 Errors:  160 No. of utterances:  2262 Error rate:  7.07338638373 %
 Test utterances stats
@@ -9,6 +11,8 @@ female: 50.0442086649% (1132/2262)
 
 ******************************************************************************
 * Male vs Female vs Child, kNN classifier, F0 trajectories, WindowLength=500ms
+* Model: 1 male  (cmu_arctic), 1 female (cmu_arctic), 19 childs (lana)
+* Test: 1 male  (cmu_arctic), 1 female (cmu_arctic), 26 childs (lana)
 ******************************************************************************
 Errors:  272 No. of utterances:  2851 Error rate:  9.54051210102 %
 Test utterances stats
@@ -16,8 +20,40 @@ male: 39.6352157138% (1130/2851)
 female: 39.7053665381% (1132/2851)
 child: 20.6594177482% (589/2851)
 
+******************************************************************************
+* Male vs Female vs Child, kNN classifier, F0 trajectories, WindowLength=500ms
+* Model: 2 male  (cmu_arctic), 1 female (cmu_arctic), 19 childs (lana)
+* Test: 3 male  (cmu_arctic), 1 female (cmu_arctic), 26 childs (lana)
+******************************************************************************
+Errors:  579 No. of utterances:  5114 Error rate:  11.3218615565 %
+male -> child: 1.65045682287%
+female -> child: 1.14840989399%
+female -> male: 4.32862190813%
+child -> female: 8.99830220713%
+child -> male: 6.79117147708%
+male -> female: 10.8458591217%
+Test utterances stats
+male: 66.3472819711% (3393/5114)
+female: 22.1353148221% (1132/5114)
+child: 11.5174032069% (589/5114)
+
+******************************************************************************
+* Male vs Female, kNN classifier, F0 trajectories, WindowLength=500ms
+* Model: 2 male  (cmu_arctic), 1 female (cmu_arctic), 19 childs (lana)
+* Test: 3 male  (cmu_arctic), 1 female (cmu_arctic), 26 childs (lana)
+******************************************************************************
+Errors:  420 No. of utterances:  4525 Error rate:  9.2817679558 %
+female -> male: 4.68197879859%
+male -> female: 10.8163866785%
+Test utterances stats
+male: 74.9834254144% (3393/4525)
+female: 25.0165745856% (1132/4525)
+
+
 ****************************************************************************************
 * Male vs Female, Decision Tree classifier, F0 trajectories, WindowLength=500ms
+* Model: 1 male  (cmu_arctic), 1 female (cmu_arctic), 19 childs (lana)
+* Test: 1 male  (cmu_arctic), 1 female (cmu_arctic), 26 childs (lana)
 ****************************************************************************************
 Errors:  185 No. of utterances:  2262 Error rate:  8.17860300619 %
 female -> male: 5.74204946996%
@@ -28,6 +64,8 @@ female: 50.0442086649% (1132/2262)
 
 ****************************************************************************************
 * Male vs Female vs Child, Decision Tree classifier, F0 trajectories, WindowLength=500ms
+* Model: 1 male  (cmu_arctic), 1 female (cmu_arctic), 19 childs (lana)
+* Test: 1 male  (cmu_arctic), 1 female (cmu_arctic), 26 childs (lana)
 ****************************************************************************************
 Errors:  361 No. of utterances:  2851 Error rate:  12.6622237811 %
 male -> child: 6.19469026549%
