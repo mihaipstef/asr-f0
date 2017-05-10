@@ -50,7 +50,7 @@ void f0_process(const short *in_buf) {
 		yin_write(yin, in_buf);
 		if (yin_read(yin, &period, &bestdiff)) {
 			voice_prob = bestdiff > 32768 ? 0.0 : 1.0 - (double)bestdiff / 32768;
-			if (period > 0) {
+			if (period > 0 && voice_prob > 0.8) {
 				f0 = (double)sample_rate / period;
 				if (f0 >= MIN_F0 && f0 <= MAX_F0) {
 					stats_process(f0, &f0_stats);
