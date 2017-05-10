@@ -35,8 +35,8 @@ def f0estimate(wavFile, ltWindowLength=None):
         if result and period > 0:
             pvoice=0
             if diff < 32768:
-                pvoice = float(diff) / 32768
-                if pvoice > 0.5:
+                pvoice = 1.0 - float(diff) / 32768
+                if pvoice > 0.7:
                     f0 = float(sampleRate)/period
                     if f0 > f0Min and f0 < f0Max:
                         duration = duration + windowPeriod

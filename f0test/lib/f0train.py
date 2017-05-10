@@ -10,7 +10,7 @@ def computeFeatures(dbPath, speakers, outFname=None):
 
     for (speaker,_class) in speakers:
         for fname in os.listdir(dbPath+speaker+"/wav"):
-            (speech, f0) = f0estimate(dbPath+speaker+"/wav/"+fname)
+            (speech, f0, rejects) = f0estimate(dbPath+speaker+"/wav/"+fname)
             if len(f0) > 0:
                 features[_class].append(computeTrajectoryStatistics(f0))
                 if outFname is not None:

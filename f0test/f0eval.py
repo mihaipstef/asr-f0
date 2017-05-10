@@ -37,7 +37,7 @@ if True:
     err = {}
     for (speaker,_class) in testSpeakers:
         for fname in os.listdir(dbPath+speaker+"/wav"):
-            (speech, f0) = f0estimate(dbPath+speaker+"/wav/"+fname, 0.5)
+            (speech, f0, rejects) = f0estimate(dbPath+speaker+"/wav/"+fname, 4)
             if len(f0) > 0:
                 features = computeTrajectoryStatistics(f0)
                 total = total + 1
